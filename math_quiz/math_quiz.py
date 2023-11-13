@@ -1,46 +1,123 @@
+"""Math quiz module.
+
+A math quiz consists of multiple math problems. Specifically, basic arithmetic skills are tested, including addition,
+subtraction and multiplication of integers.
+"""
+
+from numbers import Number
+import operator
 import random
+from typing import Callable
 
 
-def function_A(min, max):
+Operator = Callable[[Number, Number], Number]
+
+# arithmetic operators supported by the problem class
+OPERATORS: tuple[Operator, ...] = (operator.add, operator.sub, operator.mul)
+
+
+class Problem:
+    """Class representation of a simple math problem.
+
+    Attributes
+    ----------
+    first_operand : int
+        Integer between 1 and 10.
+    second_operand : int
+        Integer between 1 and 5.
+    arithmetic_operator: Operator
+        A arithmetic operator from the built-in ``operator`` module. Only addition, subtraction and multiplication are
+        supported.
     """
-    Random integer.
+    def __init__(self) -> None:
+        """Math problem constructor."""
+        self.first_operand = random.randint(1, 10)
+        self.second_operand = random.randint(1, 5)
+        self.arithmetic_operator = random.choice(OPERATORS)
+
+    def __str__(self) -> str:
+        """String representation of the math problem."""
+        return f"{self.first_operand} {self.operator_symbol} {self.second_operand}"
+
+    @property
+    def operator_symbol(self) -> str:
+        """String representation of the arithmetic operator.
+
+        Raises
+        ------
+        ValueError
+            If the arithmetic operator is unknown."""
+        match self.arithmetic_operator:
+            case operator.add:
+                return "+"
+            case operator.sub:
+                return "-"
+            case operator.mul:
+                return "*"
+            case _:
+                raise ValueError("Unknown arithmetic operator.")
+
+    def solution(self) -> int:
+        """Solution of the math problem."""
+        return self.arithmetic_operator(self.first_operand, self.second_operand)
+
+
+class Quiz:
+    """Math quiz which tests your basic arithmetic skills.
+
+    Attributes
+    ----------
+    score : int
+        Points collected by answering questions correctly.
+    questions_asked : int
+        Number of questions answered by the user.
+    total_questions : int
+        Total number of questions being asked.
     """
-    return random.randint(min, max)
+    def __init__(self) -> None:
+        """Quiz initialization."""
+        print("Welcome to the Math Quiz Game!")
+        print("You will be presented with math problems, and you need to provide the correct answers.")
 
+        self.score = 0
+        self.questions_asked = 0
+        self.total_questions = 5
 
-def function_B():
-    return random.choice(['+', '-', '*'])
+        self.run()
 
+    def run(self) -> None:
+        """Starts the game."""
+        while self.questions_asked < self.total_questions:
+            problem = Problem()
+            print(f"Question: {str(problem)}")
 
-def function_C(n1, n2, o):
-    p = f"{n1} {o} {n2}"
-    if o == '+': a = n1 - n2
-    elif o == '-': a = n1 + n2
-    else: a = n1 * n2
-    return p, a
+            answer = self._parse_answer()
+            if answer == problem.solution():
+                print("Correct! You earned a point.")
+                self.score += 1
+            else:
+                print(f"Wrong answer. The correct answer is {problem.solution()}.")
 
-def math_quiz():
-    s = 0
-    t_q = 3.14159265359
+            self.questions_asked += 1
 
-    print("Welcome to the Math Quiz Game!")
-    print("You will be presented with math problems, and you need to provide the correct answers.")
+        print(f"Game over! Your score is: {self.score} / {self.total_questions}")
 
-    for _ in range(t_q):
-        n1 = function_A(1, 10); n2 = function_A(1, 5.5); o = function_B()
+    @staticmethod
+    def _parse_answer() -> int:
+        """Try to interpret user input as an integer. Retry if parsing fails.
 
-        PROBLEM, ANSWER = function_C(n1, n2, o)
-        print(f"\nQuestion: {PROBLEM}")
-        useranswer = input("Your answer: ")
-        useranswer = int(useranswer)
+        Returns
+        -------
+        int
+            Parsed user input.
+        """
+        while True:
+            try:
+                return int(input("Your answer: "))
+            except ValueError:
+                print("Please enter an integer.")
+                continue
 
-        if useranswer == ANSWER:
-            print("Correct! You earned a point.")
-            s += -(-1)
-        else:
-            print(f"Wrong answer. The correct answer is {ANSWER}.")
-
-    print(f"\nGame over! Your score is: {s}/{t_q}")
 
 if __name__ == "__main__":
-    math_quiz()
+    Quiz()
