@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "math-quiz"
 version = "1.0.0"
-description = "Test your basic arithmetic skills.."
+description = "Test your basic arithmetic skills."
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "BSD-3-Clause"}
