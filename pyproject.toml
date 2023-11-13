@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "math-quiz"
+version = "1.0.0"
+description = "Test your basic arithmetic skills.."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "BSD-3-Clause"}
+keywords = [
+    "math",
+    "quiz",
+]
+authors = [
+    { name = "Robert Grzonka", email = "robert.grzonka@fau.de" },
+]
+maintainers = [
+    { name = "Robert Grzonka", email = "robert.grzonka@fau.de" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.3",
+    "black>=23.3",
+    "ruff>=0.1",
+]
+
+[project.scripts]
+math-quiz = "math_quiz.__main__:quiz"
